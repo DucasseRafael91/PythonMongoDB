@@ -7,6 +7,7 @@ Application de gestion d'une sélection du prix Goncourt
 import app
 from daos.client_dao import ClientDAO
 from daos.account_dao import AccountDAO
+from bson.objectid import ObjectId
 
 def main() -> None:
     """Programme principal."""
@@ -39,10 +40,9 @@ def main() -> None:
         elif choice == "6":
             choice_6()
         elif choice == "7":
-            account_id = input("Entrez l'ID du compte : ")
-            account = AccountDAO.find_account_by_id(account_id)
-            if account:
-                print(f"Compte trouvé : {account}")
+            choice_7()
+        elif choice == "8":
+            choice_8()
         else:
             print("Choix invalide, veuillez taper 1, 2 ou 3.")
 
@@ -93,6 +93,23 @@ def choice_6():
     solde = float(input("Entrez le solde initial du compte : "))
     client_id = input("Entrez l'ID du client pour lequel créer le compte : ")
     AccountDAO.create_account(client_id, solde)
+
+def choice_7():
+    account_id = input("Entrez l'ID du compte : ")
+    account = AccountDAO.find_account_by_id(account_id)
+    if account:
+        print(f"Compte trouvé : {account}")
+
+def choice_8():
+    account_id = input("Entrez l'ID du compte à modifier : ")
+    account = AccountDAO.find_account_by_id(account_id)
+    if account:
+        new_solde = float(input(f"Entrez le nouveau solde pour le compte (ancien solde: {account['solde']}): "))
+        account['solde'] = new_solde
+        new_client = input("Entrez l'id du nouveau client pour le compte : ")
+        if new_client:
+            account['client_id'] = ObjectId(new_client)
+        AccountDAO.update_account(account_id, account)
 
 
 if __name__ == '__main__':

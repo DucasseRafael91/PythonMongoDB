@@ -20,8 +20,8 @@ class AccountDAO:
         return db["accounts"].insert_one({"client_id": ObjectId(client_id), "solde": solde})
 
     @staticmethod
-    def update_client(client_id, updated_client):
-        return db["clients"].update_one({"_id": ObjectId(client_id)}, {"$set": updated_client})
+    def update_account(account_id, updated_account):
+        return db["accounts"].update_one({"_id": ObjectId(account_id)}, {"$set": updated_account})
 
     @staticmethod
     def delete_client(client_id):
