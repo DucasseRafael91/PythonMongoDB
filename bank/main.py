@@ -5,6 +5,7 @@
 Application de gestion d'une sélection du prix Goncourt
 """
 import app
+from daos.operation_dao import OperationDAO
 from daos.client_dao import ClientDAO
 from daos.account_dao import AccountDAO
 from bson.objectid import ObjectId
@@ -24,6 +25,10 @@ def main() -> None:
         print("8 - Modifier un compte d'un client")
         print("9 - Suppprimer un compte d'un client")
         print("10 - Liste des comptes d'un client")
+        print("11 - Effectuer un dépot sur un compte d'un client")
+        print("12 - Effectuer un retrait sur un compte d'un client")
+        print("13 - Effectuer un virement entre deux comptes d'un client")
+        print("14 - Afficher l'historique des transactions d'un compte d'un client")
 
         choice = input("Tapez 1, 2, 3, 4 ou 5 : ")
 
@@ -46,16 +51,15 @@ def main() -> None:
         elif choice == "9":
             choice_9()
         elif choice == "10":
-            client_id = input("Entrez l'ID du client pour lequel afficher les comptes : ")
-            accounts = AccountDAO.find_accounts_by_client_id(client_id)
-            if not accounts:
-                print(f"Aucun compte trouvé pour le client avec l'ID '{client_id}'.")
-            else:
-                print("Comptes trouvés :")
-                for i, account in enumerate(accounts, start=1):
-                    print(f"{i}. Compte ID: {account['_id']}, Solde: {account['solde']}")
+            choice_10()
+        elif choice == "11":
+            account_id = input("Entrez l'ID du compte pour le dépot : ")
+            type = "Depot"
+            montant = float(input("Entrez le montant du dépot : "))
+            OperationDAO.create_operation_depot(account_id, type, montant)
         else:
             print("Choix invalide, veuillez taper 1, 2 ou 3.")
+
 
 def choice_1():
     last_name = input("Entrez le nom du client : ")
@@ -124,6 +128,16 @@ def choice_8():
 def choice_9():
     account_id = input("Entrez l'ID du compte à supprimer : ")
     AccountDAO.delete_account(account_id)
+
+def choice_10():
+    client_id = input("Entrez l'ID du client pour lequel afficher les comptes : ")
+    accounts = AccountDAO.find_accounts_by_client_id(client_id)
+    if not accounts:
+        print(f"Aucun compte trouvé pour le client avec l'ID '{client_id}'.")
+    else:
+        print("Comptes trouvés :")
+        for i, account in enumerate(accounts, start=1):
+            print(f"{i}. Compte ID: {account['_id']}, Solde: {account['solde']}")
 
 
 if __name__ == '__main__':
