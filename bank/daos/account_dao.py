@@ -8,11 +8,11 @@ class AccountDAO:
         return list(db["accounts"].find())
 
     @staticmethod
-    def find_client_by_id(client_id):
-        return db["clients"].find_one({"_id": ObjectId(client_id)})
+    def find_account_by_id(account_id):
+        return db["accounts"].find_one({"_id": ObjectId(account_id)})
 
     @staticmethod
-    def find_clients_by_first_name(first_name):
+    def find_accounts_by_client_id(first_name):
         return list(db["clients"].find({"first_name": first_name}))
 
     @staticmethod

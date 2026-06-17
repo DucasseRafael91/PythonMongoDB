@@ -37,11 +37,15 @@ def main() -> None:
         elif choice == "5":
             choice_5()
         elif choice == "6":
-            solde = float(input("Entrez le solde initial du compte : "))
-            client_id = input("Entrez l'ID du client pour lequel créer le compte : ")
-            AccountDAO.create_account(client_id, solde)
+            choice_6()
+        elif choice == "7":
+            account_id = input("Entrez l'ID du compte : ")
+            account = AccountDAO.find_account_by_id(account_id)
+            if account:
+                print(f"Compte trouvé : {account}")
         else:
             print("Choix invalide, veuillez taper 1, 2 ou 3.")
+
 
 def choice_1():
     last_name = input("Entrez le nom du client : ")
@@ -84,6 +88,11 @@ def choice_5():
     clients = ClientDAO.find_clients()
     for client in clients:
         print(f"{client['first_name']} {client['last_name']}")
+
+def choice_6():
+    solde = float(input("Entrez le solde initial du compte : "))
+    client_id = input("Entrez l'ID du client pour lequel créer le compte : ")
+    AccountDAO.create_account(client_id, solde)
 
 
 if __name__ == '__main__':
