@@ -1,4 +1,5 @@
 from app import db
+from bson import ObjectId
 
 class ClientDAO:
 
@@ -17,4 +18,8 @@ class ClientDAO:
     @staticmethod
     def create_client(last_name, first_name):
         return db["clients"].insert_one({"last_name": last_name,"first_name": first_name })
+
+    @staticmethod
+    def delete_client(client_id):
+        return db["clients"].delete_one({"_id": ObjectId(client_id)})
 
