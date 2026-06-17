@@ -9,7 +9,7 @@ class ClientDAO:
 
     @staticmethod
     def find_client_by_id(client_id):
-        return db["clients"].find_one({"_id": client_id})
+        return db["clients"].find_one({"_id": ObjectId(client_id)})
 
     @staticmethod
     def find_clients_by_first_name(first_name):
@@ -18,6 +18,10 @@ class ClientDAO:
     @staticmethod
     def create_client(last_name, first_name):
         return db["clients"].insert_one({"last_name": last_name,"first_name": first_name })
+
+    @staticmethod
+    def update_client(client_id, updated_client):
+        return db["clients"].update_one({"_id": ObjectId(client_id)}, {"$set": updated_client})
 
     @staticmethod
     def delete_client(client_id):

@@ -14,8 +14,8 @@ def main() -> None:
         print("\nVeuillez choisir une option :")
         print("1 - Créer un client")
         print("2 - Rechercher un client par prénom")
-        print("3 - Modifier un client A FAIRE")
-        print("4 - Suppprimer un client A FAIRE")
+        print("3 - Modifier un client")
+        print("4 - Suppprimer un client")
         print("5 - Liste des clients")
 
         choice = input("Tapez 1, 2, 3, 4 ou 5 : ")
@@ -24,14 +24,14 @@ def main() -> None:
             choice_1()
         elif choice == "2":
             choice_2()
+        elif choice == "3":
+            choice_3()
         elif choice == "4":
-            client_id = input("Entrez l'ID du client à supprimer : ")
-            ClientDAO.delete_client(client_id)
+            choice_4()
         elif choice == "5":
             choice_5()
         else:
             print("Choix invalide, veuillez taper 1, 2 ou 3.")
-
 
 def choice_1():
     last_name = input("Entrez le nom du client : ")
@@ -49,17 +49,31 @@ def choice_2():
         for i, client in enumerate(clients, start=1):
             print(f"{i}. {client['first_name']} {client['last_name']}")
 
+def choice_3():
+    clients = ClientDAO.find_clients()
+    for client in clients:
+        print(f"{client['_id']} {client['first_name']} {client['last_name']}")
+    chosen_client_id = input("Entrez l'ID du client à modifier : ")
+    client = ClientDAO.find_client_by_id(chosen_client_id)
+    if client:
+        new_first_name = input(f"Entrez le nouveau prénom pour {client['first_name']} : ")
+        new_last_name = input(f"Entrez le nouveau nom pour {client['last_name']} : ")
+        if new_first_name:
+            client['first_name'] = new_first_name
+        if new_last_name:
+            client['last_name'] = new_last_name
+        ClientDAO.update_client(chosen_client_id, client)
+    else:
+        print("Client non trouvé.")
+
+def choice_4():
+    client_id = input("Entrez l'ID du client à supprimer : ")
+    ClientDAO.delete_client(client_id)
 
 def choice_5():
     clients = ClientDAO.find_clients()
     for client in clients:
         print(f"{client['first_name']} {client['last_name']}")
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
