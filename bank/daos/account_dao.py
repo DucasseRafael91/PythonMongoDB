@@ -12,8 +12,8 @@ class AccountDAO:
         return db["accounts"].find_one({"_id": ObjectId(account_id)})
 
     @staticmethod
-    def find_accounts_by_client_id(first_name):
-        return list(db["clients"].find({"first_name": first_name}))
+    def find_accounts_by_client_id(id):
+        return list(db["accounts"].find({"client_id": ObjectId(id)}))
 
     @staticmethod
     def create_account(client_id, solde):
@@ -24,6 +24,6 @@ class AccountDAO:
         return db["accounts"].update_one({"_id": ObjectId(account_id)}, {"$set": updated_account})
 
     @staticmethod
-    def delete_client(client_id):
-        return db["clients"].delete_one({"_id": ObjectId(client_id)})
+    def delete_account(account_id):
+        return db["accounts"].delete_one({"_id": ObjectId(account_id)})
 

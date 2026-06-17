@@ -43,9 +43,19 @@ def main() -> None:
             choice_7()
         elif choice == "8":
             choice_8()
+        elif choice == "9":
+            choice_9()
+        elif choice == "10":
+            client_id = input("Entrez l'ID du client pour lequel afficher les comptes : ")
+            accounts = AccountDAO.find_accounts_by_client_id(client_id)
+            if not accounts:
+                print(f"Aucun compte trouvé pour le client avec l'ID '{client_id}'.")
+            else:
+                print("Comptes trouvés :")
+                for i, account in enumerate(accounts, start=1):
+                    print(f"{i}. Compte ID: {account['_id']}, Solde: {account['solde']}")
         else:
             print("Choix invalide, veuillez taper 1, 2 ou 3.")
-
 
 def choice_1():
     last_name = input("Entrez le nom du client : ")
@@ -110,6 +120,10 @@ def choice_8():
         if new_client:
             account['client_id'] = ObjectId(new_client)
         AccountDAO.update_account(account_id, account)
+
+def choice_9():
+    account_id = input("Entrez l'ID du compte à supprimer : ")
+    AccountDAO.delete_account(account_id)
 
 
 if __name__ == '__main__':
