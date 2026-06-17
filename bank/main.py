@@ -6,6 +6,7 @@ Application de gestion d'une sélection du prix Goncourt
 """
 import app
 from daos.client_dao import ClientDAO
+from daos.account_dao import AccountDAO
 
 def main() -> None:
     """Programme principal."""
@@ -17,6 +18,11 @@ def main() -> None:
         print("3 - Modifier un client")
         print("4 - Suppprimer un client")
         print("5 - Liste des clients")
+        print("6 - Créer un compte pour un client")
+        print("7 - Consulter les comptes d'un client")
+        print("8 - Modifier un compte d'un client")
+        print("9 - Suppprimer un compte d'un client")
+        print("10 - Liste des comptes d'un client")
 
         choice = input("Tapez 1, 2, 3, 4 ou 5 : ")
 
@@ -30,6 +36,10 @@ def main() -> None:
             choice_4()
         elif choice == "5":
             choice_5()
+        elif choice == "6":
+            solde = float(input("Entrez le solde initial du compte : "))
+            client_id = input("Entrez l'ID du client pour lequel créer le compte : ")
+            AccountDAO.create_account(client_id, solde)
         else:
             print("Choix invalide, veuillez taper 1, 2 ou 3.")
 
