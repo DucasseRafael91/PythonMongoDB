@@ -53,10 +53,9 @@ def main() -> None:
         elif choice == "10":
             choice_10()
         elif choice == "11":
-            account_id = input("Entrez l'ID du compte pour le dépot : ")
-            type = "Depot"
-            montant = float(input("Entrez le montant du dépot : "))
-            OperationDAO.create_operation_depot(account_id, type, montant)
+            choice_11()
+        elif choice == "12":
+            choice_12()
         else:
             print("Choix invalide, veuillez taper 1, 2 ou 3.")
 
@@ -138,6 +137,19 @@ def choice_10():
         print("Comptes trouvés :")
         for i, account in enumerate(accounts, start=1):
             print(f"{i}. Compte ID: {account['_id']}, Solde: {account['solde']}")
+
+def choice_11():
+    account_id = input("Entrez l'ID du compte pour le dépot : ")
+    type = "Depot"
+    montant = float(input("Entrez le montant du dépot : "))
+    OperationDAO.create_operation_depot(account_id, type, montant)
+
+def choice_12():
+    account_id = input("Entrez l'ID du compte pour le retrait : ")
+    type = "Retrait"
+    montant = float(input("Entrez le montant du retrait : "))
+    OperationDAO.create_operation_depot(account_id, type, montant)
+
 
 
 if __name__ == '__main__':
